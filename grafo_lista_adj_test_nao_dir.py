@@ -75,6 +75,67 @@ class TestGrafo(unittest.TestCase):
         # Grafo p\teste de remoção em casta
         self.g_r = GrafoBuilder().tipo(MeuGrafo()).vertices(2).arestas(1).build()
 
+        # Árvore DFS do gráfo da Paraíba começando do vértice C
+        def criaGrafo (Vertice):
+            grafo = MeuGrafo()
+
+            for v in "JCEPMTZ":
+                grafo.adiciona_vertice(v)
+
+            return grafo
+
+        def GrafoDFS (Vertice):
+            grafo = criaGrafo(Vertice)
+            dic = {
+                'J': [('a1', 'J', 'C'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a8', 'T', 'M'), ('a9', 'T', 'Z')],
+                'C': [('a1', 'C', 'J'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a8', 'T', 'M'), ('a9', 'T', 'Z')],
+                'E': [('a2', 'E', 'C'), ('a1', 'C', 'J'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a8', 'T', 'M'), ('a9', 'T', 'Z')],
+                'P': [('a4', 'P', 'C'), ('a1', 'C', 'J'), ('a2', 'C', 'E'), ('a6', 'C', 'T'), ('a8', 'T', 'M'), ('a9', 'T', 'Z')],
+                'M': [('a7', 'M', 'C'), ('a1', 'C', 'J'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a9', 'T', 'Z')],
+                'T': [('a6', 'T', 'C'), ('a1', 'C', 'J'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a7', 'C', 'M'), ('a9', 'T', 'Z')],
+                'Z': [('a9', 'Z', 'T'), ('a6', 'T', 'C'), ('a1', 'C', 'J'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a7', 'C', 'M')],
+            }
+
+            for R, v1, v2 in dic[Vertice]:
+                grafo.adiciona_aresta(R, v1, v2)
+
+            return grafo
+
+        def GrafoBFS (Vertice):
+            grafo = criaGrafo(Vertice)
+            dic = {
+ #               'J': [('a1', 'J', 'C'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a7', 'C', 'M'), ('a9', 'T', 'Z')],
+                'J': [('a1', 'J', 'C'), ('a2', 'C', 'E'), ('a4', 'C', 'P'), ('a6', 'C', 'T'), ('a7', 'C', 'M'), ('a9', 'T', 'Z')],
+                "C": [("a1", "C", "J"), ("a2", "C", "E"), ("a4", "C", "P"), ("a6", "C", "T"), ("a7", "C", "M"), ("a9", "T", "Z")],
+                "E": [("a2", "E", "C"), ("a1", "C", "J"), ("a4", "C", "P"), ("a6", "C", "T"), ("a7", "C", "M"), ("a9", "T", "Z")],
+                "P": [("a4", "P", "C"), ("a1", "C", "J"), ("a2", "C", "E"), ("a6", "C", "T"), ("a7", "C", "M"), ("a9", "T", "Z")],
+                "M": [("a7", "M", "C"), ("a8", "M", "T"), ("a1", "C", "J"), ("a2", "C", "E"), ("a4", "C", "P"), ("a9", "T", "Z")],
+                "T": [("a6", "T", "C"), ("a8", "T", "M"), ("a9", "T", "Z"), ("a1", "C", "J"), ("a2", "C", "E"), ("a4", "C", "P")],
+                "Z": [("a9", "Z", "T"), ("a6", "T", "C"), ("a8", "T", "M"), ("a1", "C", "J"), ("a2", "C", "E"), ("a4", "C", "P")],
+            }
+
+            for R, v1, v2 in dic[Vertice]:
+                grafo.adiciona_aresta(R, v1, v2)
+
+            return grafo
+
+        self.g_J_dfs = GrafoDFS('J')
+        self.g_C_dfs = GrafoDFS('C')
+        self.g_E_dfs = GrafoDFS('E')
+        self.g_P_dfs = GrafoDFS('P')
+        self.g_M_dfs = GrafoDFS('M')
+        self.g_T_dfs = GrafoDFS('T')
+        self.g_Z_dfs = GrafoDFS('Z')
+
+        self.g_J_bfs = GrafoBFS('J')
+        self.g_C_bfs = GrafoBFS('C')
+        self.g_E_bfs = GrafoBFS('E')
+        self.g_P_bfs = GrafoBFS('P')
+        self.g_M_bfs = GrafoBFS('M')
+        self.g_T_bfs = GrafoBFS('T')
+        self.g_Z_bfs = GrafoBFS('Z')
+
+
     def test_adiciona_aresta(self):
         self.assertTrue(self.g_p.adiciona_aresta('a10', 'J', 'C'))
         a = Aresta("zxc", self.g_p.get_vertice("C"), self.g_p.get_vertice("Z"))
@@ -193,3 +254,25 @@ class TestGrafo(unittest.TestCase):
         self.assertFalse((self.g_l5.eh_completo()))
         self.assertFalse((self.g_d.eh_completo()))
         self.assertFalse((self.g_d2.eh_completo()))
+
+    def test_dfs(self):
+        self.assertEqual(self.g_p.dfs("J"), self.g_J_dfs)
+        self.assertEqual(self.g_p.dfs("C"), self.g_C_dfs)
+        self.assertEqual(self.g_p.dfs("E"), self.g_E_dfs)
+        self.assertEqual(self.g_p.dfs("P"), self.g_P_dfs)
+        self.assertEqual(self.g_p.dfs("M"), self.g_M_dfs)
+        self.assertEqual(self.g_p.dfs("T"), self.g_T_dfs)
+        self.assertEqual(self.g_p.dfs("Z"), self.g_Z_dfs)
+        with self.assertRaises(VerticeInvalidoError):
+            self.g_p.dfs("A")
+
+    def test_bfs(self):
+        self.assertEqual(self.g_p.bfs("J"), self.g_J_bfs)
+        self.assertEqual(self.g_p.bfs("C"), self.g_C_bfs)
+        self.assertEqual(self.g_p.bfs("E"), self.g_E_bfs)
+        self.assertEqual(self.g_p.bfs("P"), self.g_P_bfs)
+        self.assertEqual(self.g_p.bfs("M"), self.g_M_bfs)
+        self.assertEqual(self.g_p.bfs("T"), self.g_T_bfs)
+        self.assertEqual(self.g_p.bfs("Z"), self.g_Z_bfs)
+        with self.assertRaises(VerticeInvalidoError):
+            self.g_p.bfs("A")
