@@ -66,3 +66,8 @@ class MeuGrafo(GrafoMatrizAdjacenciaDirecionado):
         :return: Uma lista de listas que representa a matriz de alcançabilidade de Warshall associada ao grafo
         '''
         pass
+
+    def dijkstra(self, origem, destino):
+        for v in self.vertices:
+            for _, p in v.ad
+            print(v)

@@ -7,7 +7,6 @@ from bibgrafo.grafo_errors import *
 from bibgrafo.grafo_json import GrafoJSON
 from bibgrafo.grafo_builder import GrafoBuilder
 
-
 class TestGrafo(unittest.TestCase):
 
     def setUp(self):
@@ -100,7 +99,6 @@ class TestGrafo(unittest.TestCase):
                 grafo.adiciona_aresta(R, v1, v2)
 
             return grafo
-
         def GrafoBFS (Vertice):
             grafo = criaGrafo(Vertice)
             dic = {
